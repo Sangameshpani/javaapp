@@ -1,0 +1,17 @@
+- hosts: ec2_instance
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.9
+  tasks:
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Docker image pull
+      command: docker pull sangameshpani/app:latest
+      
+    - name: Run Docker container
+      command: docker run -itd -p 8080:8080 app:latest
+
